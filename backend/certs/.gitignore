@@ -1,0 +1,3 @@
+# Download CA certificate from Aiven and save as ca.pem in this folder
+*
+!.gitignore

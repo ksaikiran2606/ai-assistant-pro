@@ -7,6 +7,7 @@ from sqlalchemy import pool
 
 from app.config import get_settings
 from app.database import Base
+from app.db_utils import build_mysql_connect_args
 from app.models import Chat, Message, User  # noqa: F401
 
 config = context.config
@@ -20,7 +21,12 @@ target_metadata = Base.metadata
 
 def _engine_connect_args() -> dict:
     if settings.database_url.startswith("mysql"):
-        return {"charset": "utf8mb4"}
+        return build_mysql_connect_args(
+            settings.database_url,
+            settings.mysql_ssl_ca,
+            settings.mysql_ssl_ca_file,
+            settings.mysql_ssl_insecure,
+        )
     return {}
 
 

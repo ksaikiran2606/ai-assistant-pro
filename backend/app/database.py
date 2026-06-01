@@ -4,6 +4,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker
 
 from app.config import get_settings
+from app.db_utils import build_mysql_connect_args
 
 settings = get_settings()
 
@@ -13,9 +14,13 @@ _engine_kwargs: dict = {
     "max_overflow": 20,
 }
 
-# MySQL: utf8mb4 for full Unicode (emoji, etc.)
 if settings.database_url.startswith("mysql"):
-    _engine_kwargs["connect_args"] = {"charset": "utf8mb4"}
+    _engine_kwargs["connect_args"] = build_mysql_connect_args(
+        settings.database_url,
+        settings.mysql_ssl_ca,
+        settings.mysql_ssl_ca_file,
+        settings.mysql_ssl_insecure,
+    )
 
 engine = create_engine(settings.database_url, **_engine_kwargs)
 

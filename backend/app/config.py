@@ -20,6 +20,9 @@ class Settings(BaseSettings):
     algorithm: str = "HS256"
 
     database_url: str = "mysql+pymysql://root:password@localhost:3306/ai_assistant_pro"
+    mysql_ssl_ca: str = ""  # Paste Aiven CA certificate PEM (Render env var)
+    mysql_ssl_ca_file: str = "certs/ca.pem"  # Local: download CA from Aiven to this file
+    mysql_ssl_insecure: bool = False  # Dev only: skip CA verify if ca.pem missing
 
     ai_provider: str = "groq"
     openai_api_key: str = ""
